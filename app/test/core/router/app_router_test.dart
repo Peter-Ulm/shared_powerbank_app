@@ -28,7 +28,8 @@ void main() {
   testWidgets('no token -> lands on Onboarding', (tester) async {
     final c = _container(tokens: InMemoryTokenStore());
     await _pump(tester, c);
-    expect(find.text('Onboarding'), findsOneWidget);
+    // Real onboarding starts on the language step.
+    expect(find.text('Kiswahili'), findsOneWidget);
   });
 
   testWidgets('valid token but terms not accepted -> Terms', (tester) async {
@@ -36,7 +37,7 @@ void main() {
     await store.write(const AuthTokens(accessToken: 'a', refreshToken: 'r'));
     final c = _container(tokens: store, prefs: InMemoryAppPrefs(termsAccepted: false));
     await _pump(tester, c);
-    expect(find.text('Terms'), findsOneWidget);
+    expect(find.text('Masharti / Terms'), findsOneWidget);
   });
 
   testWidgets('valid token and terms accepted -> Home', (tester) async {

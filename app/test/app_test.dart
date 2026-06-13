@@ -15,6 +15,7 @@ void main() {
       child: const MariJoyApp(),
     ));
     await tester.pumpAndSettle();
-    expect(find.text('Onboarding'), findsOneWidget);
+    // Real onboarding starts on the language step.
+    expect(find.text('Kiswahili'), findsOneWidget);
   });
 }
