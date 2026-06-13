@@ -1,3 +1,7 @@
 {
-  "@@locale": "en"
+  "@@locale": "en",
+  "appTitle": "MariJoy",
+  "payCheckPhone": "Check your phone and enter your PIN",
+  "findReturnCabinet": "Find a return cabinet",
+  "resendPrompt": "Resend prompt"
 }
