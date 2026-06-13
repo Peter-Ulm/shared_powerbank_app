@@ -5,8 +5,13 @@ import '../domain/repositories/rentals_repository.dart';
 import '../mock/mock_repositories.dart';
 import '../mock/scenario_engine.dart';
 import 'env/app_environment.dart';
+import 'storage/app_prefs.dart';
 
 final environmentProvider = Provider<AppEnvironment>((_) => AppEnvironment.fromDartDefine());
+
+final appPrefsProvider = Provider<AppPrefs>((ref) {
+  throw UnimplementedError('appPrefsProvider must be overridden in main()');
+});
 
 final scenarioEngineProvider = Provider<ScenarioEngine>((ref) {
   final engine = ScenarioEngine();

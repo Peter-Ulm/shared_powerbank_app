@@ -1,8 +1,17 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'app.dart';
+import 'core/providers.dart';
+import 'core/storage/app_prefs.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: MariJoyApp()));
+  final prefs = await SharedPreferences.getInstance();
+  runApp(ProviderScope(
+    overrides: [
+      appPrefsProvider.overrideWithValue(SharedAppPrefs(prefs)),
+    ],
+    child: const MariJoyApp(),
+  ));
 }
