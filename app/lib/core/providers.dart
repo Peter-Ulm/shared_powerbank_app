@@ -1,4 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'storage/token_store.dart';
+import '../domain/repositories/auth_repository.dart';
+import '../mock/mock_auth_repository.dart';
 import '../domain/repositories/cabinets_repository.dart';
 import '../domain/repositories/orders_repository.dart';
 import '../domain/repositories/rentals_repository.dart';
@@ -22,6 +26,15 @@ final scenarioEngineProvider = Provider<ScenarioEngine>((ref) {
 /// Auth state: true when a token exists. Real wiring lands in a later plan;
 /// for now it defaults to false (unauthenticated).
 final isAuthenticatedProvider = StateProvider<bool>((_) => false);
+
+final tokenStoreProvider = Provider<TokenStore>((ref) {
+  // Real secure storage on device; tests override with InMemoryTokenStore.
+  return SecureTokenStore(const FlutterSecureStorage());
+});
+
+final authRepositoryProvider = Provider<AuthRepository>((ref) {
+  return MockAuthRepository();
+});
 
 final cabinetsRepositoryProvider = Provider<CabinetsRepository>((ref) {
   return MockCabinetsRepository();

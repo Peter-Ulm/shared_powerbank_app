@@ -22,7 +22,7 @@ class MockAuthRepository implements AuthRepository {
 
   @override
   Future<AppUser> me() async =>
-      AppUser(id: 'U-restored', phone: '+255700000000', locale: 'sw', status: 'active');
+      const AppUser(id: 'U-restored', phone: '+255700000000', locale: 'sw', status: 'active');
 }
 
 class AuthException implements Exception {
