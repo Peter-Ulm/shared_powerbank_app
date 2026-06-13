@@ -23,10 +23,6 @@ final scenarioEngineProvider = Provider<ScenarioEngine>((ref) {
   return engine;
 });
 
-/// Auth state: true when a token exists. Real wiring lands in a later plan;
-/// for now it defaults to false (unauthenticated).
-final isAuthenticatedProvider = StateProvider<bool>((_) => false);
-
 final tokenStoreProvider = Provider<TokenStore>((ref) {
   // Real secure storage on device; tests override with InMemoryTokenStore.
   return SecureTokenStore(const FlutterSecureStorage());

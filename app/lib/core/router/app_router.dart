@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../providers.dart';
+import '../../features/onboarding/presentation/auth_controller.dart';
+import '../../features/onboarding/presentation/splash_screen.dart';
+import '../../features/onboarding/presentation/onboarding_flow.dart';
+import '../../features/onboarding/presentation/terms_screen.dart';
 
-/// Placeholder screens; real ones land in later plans. Routes and the auth
-/// gate are defined now so feature plans only swap the builders.
 class _Placeholder extends StatelessWidget {
   const _Placeholder(this.label);
   final String label;
@@ -13,17 +15,31 @@ class _Placeholder extends StatelessWidget {
 }
 
 GoRouter buildRouter(Ref ref) {
+  final refresh = ValueNotifier<int>(0);
+  ref.listen(authControllerProvider, (_, __) => refresh.value++);
+  ref.onDispose(refresh.dispose);
+
   return GoRouter(
-    initialLocation: '/home',
+    initialLocation: '/splash',
+    refreshListenable: refresh,
     redirect: (context, state) {
-      final loggedIn = ref.read(isAuthenticatedProvider);
-      final onboarding = state.matchedLocation == '/onboarding';
-      if (!loggedIn && !onboarding) return '/onboarding';
-      if (loggedIn && onboarding) return '/home';
-      return null;
+      final auth = ref.read(authControllerProvider);
+      final loc = state.matchedLocation;
+      return auth.maybeWhen(
+        unknown: () => loc == '/splash' ? null : '/splash',
+        authenticated: (user) {
+          final accepted = ref.read(appPrefsProvider).termsAccepted;
+          if (!accepted) return loc == '/terms' ? null : '/terms';
+          if (loc == '/splash' || loc == '/onboarding' || loc == '/terms') return '/home';
+          return null;
+        },
+        orElse: () => loc == '/onboarding' ? null : '/onboarding',
+      );
     },
     routes: [
-      GoRoute(path: '/onboarding', builder: (_, __) => const _Placeholder('Onboarding')),
+      GoRoute(path: '/splash', builder: (_, __) => const SplashScreen()),
+      GoRoute(path: '/onboarding', builder: (_, __) => const OnboardingFlow()),
+      GoRoute(path: '/terms', builder: (_, __) => const TermsScreen()),
       GoRoute(path: '/home', builder: (_, __) => const _Placeholder('Home')),
       GoRoute(path: '/scan', builder: (_, __) => const _Placeholder('Scan')),
       GoRoute(path: '/c/:deviceId', builder: (_, s) => _Placeholder('Checkout ${s.pathParameters['deviceId']}')),
