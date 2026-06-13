@@ -43,6 +43,15 @@ class AuthController extends Notifier<AuthState> {
     await ref.read(tokenStoreProvider).clear();
     state = const AuthState.unauthenticated();
   }
+
+  /// Re-emit the current authenticated state so the router re-evaluates the
+  /// terms gate after the user accepts T&Cs.
+  void acknowledgeTerms() {
+    final s = state;
+    if (s is AuthAuthenticated) {
+      state = AuthState.authenticated(user: s.user);
+    }
+  }
 }
 
 final authControllerProvider =
