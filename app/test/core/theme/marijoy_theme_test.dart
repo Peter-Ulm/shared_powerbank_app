@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/material.dart';
 import 'package:marijoy_app/core/theme/marijoy_theme.dart';
 import 'package:marijoy_app/core/theme/marijoy_colors.dart';
 
