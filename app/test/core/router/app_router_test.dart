@@ -44,7 +44,13 @@ void main() {
     final store = InMemoryTokenStore();
     await store.write(const AuthTokens(accessToken: 'a', refreshToken: 'r'));
     final c = _container(tokens: store, prefs: InMemoryAppPrefs(termsAccepted: true));
-    await _pump(tester, c);
-    expect(find.text('Home'), findsOneWidget);
+    await tester.pumpWidget(UncontrolledProviderScope(
+      container: c,
+      child: MaterialApp.router(routerConfig: c.read(routerProvider)),
+    ));
+    // Avoid pumpAndSettle: the Home screen embeds a map that keeps ticking.
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(find.text('Cabinets karibu'), findsOneWidget);
   });
 }

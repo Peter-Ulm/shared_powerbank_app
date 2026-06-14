@@ -6,6 +6,8 @@ import '../../features/onboarding/presentation/auth_controller.dart';
 import '../../features/onboarding/presentation/splash_screen.dart';
 import '../../features/onboarding/presentation/onboarding_flow.dart';
 import '../../features/onboarding/presentation/terms_screen.dart';
+import '../../features/home/presentation/home_screen.dart';
+import '../../features/scan/presentation/scan_screen.dart';
 
 class _Placeholder extends StatelessWidget {
   const _Placeholder(this.label);
@@ -40,8 +42,8 @@ GoRouter buildRouter(Ref ref) {
       GoRoute(path: '/splash', builder: (_, __) => const SplashScreen()),
       GoRoute(path: '/onboarding', builder: (_, __) => const OnboardingFlow()),
       GoRoute(path: '/terms', builder: (_, __) => const TermsScreen()),
-      GoRoute(path: '/home', builder: (_, __) => const _Placeholder('Home')),
-      GoRoute(path: '/scan', builder: (_, __) => const _Placeholder('Scan')),
+      GoRoute(path: '/home', builder: (_, __) => const HomeScreen()),
+      GoRoute(path: '/scan', builder: (_, __) => const ScanScreen()),
       GoRoute(path: '/c/:deviceId', builder: (_, s) => _Placeholder('Checkout ${s.pathParameters['deviceId']}')),
       GoRoute(path: '/orders/:id', builder: (_, s) => _Placeholder('Order ${s.pathParameters['id']}')),
       GoRoute(path: '/rentals', builder: (_, __) => const _Placeholder('Rentals')),

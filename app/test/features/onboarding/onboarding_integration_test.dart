@@ -32,8 +32,10 @@ void main() {
     // Terms gate
     expect(find.text('Masharti / Terms'), findsOneWidget);
     await tester.tap(find.text('Nakubali / I accept'));
-    await tester.pumpAndSettle();
+    // Avoid pumpAndSettle: the Home screen embeds a map that keeps ticking.
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
     // Home
-    expect(find.text('Home'), findsOneWidget);
+    expect(find.text('Cabinets karibu'), findsOneWidget);
   });
 }
