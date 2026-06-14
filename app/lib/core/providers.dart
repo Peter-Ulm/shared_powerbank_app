@@ -10,6 +10,7 @@ import '../mock/mock_repositories.dart';
 import '../mock/scenario_engine.dart';
 import 'env/app_environment.dart';
 import 'storage/app_prefs.dart';
+import 'location/location_service.dart';
 
 final environmentProvider = Provider<AppEnvironment>((_) => AppEnvironment.fromDartDefine());
 
@@ -35,6 +36,8 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 final cabinetsRepositoryProvider = Provider<CabinetsRepository>((ref) {
   return MockCabinetsRepository();
 });
+
+final locationServiceProvider = Provider<LocationService>((ref) => const MockLocationService());
 
 final ordersRepositoryProvider = Provider<OrdersRepository>((ref) {
   return MockOrdersRepository(ref.watch(scenarioEngineProvider));
