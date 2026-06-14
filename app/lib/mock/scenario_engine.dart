@@ -17,6 +17,7 @@ class ScenarioEngine {
   final _orderControllers = <String, StreamController<Order>>{};
   final _rentals = <Rental>[];
   final _rentalsController = StreamController<List<Rental>>.broadcast();
+  final List<Timer> _timers = [];
 
   static const tick = Duration(seconds: 2);
 
@@ -52,13 +53,13 @@ class ScenarioEngine {
 
   void _schedule(String id, int qty) {
     if (fault == MockFault.pushTimeout) {
-      Timer(tick * 2, () => _emit(_orders[id]!.copyWith(status: OrderStatus.failed)));
+      _timers.add(Timer(tick * 2, () => _emit(_orders[id]!.copyWith(status: OrderStatus.failed))));
       return;
     }
-    Timer(tick, () {
+    _timers.add(Timer(tick, () {
       _emit(_orders[id]!.copyWith(status: OrderStatus.fulfilling));
       _ejectUnits(id, qty);
-    });
+    }));
   }
 
   void _ejectUnits(String id, int qty) {
@@ -67,7 +68,7 @@ class ScenarioEngine {
       final unit = i;
       final fails = (fault == MockFault.ejectFail) ||
           (fault == MockFault.partial && unit == qty);
-      Timer(delay, () => _completeUnit(id, unit, fails));
+      _timers.add(Timer(delay, () => _completeUnit(id, unit, fails)));
       delay += tick;
     }
   }
@@ -110,6 +111,10 @@ class ScenarioEngine {
   }
 
   void dispose() {
+    for (final t in _timers) {
+      t.cancel();
+    }
+    _timers.clear();
     for (final c in _orderControllers.values) {
       c.close();
     }
