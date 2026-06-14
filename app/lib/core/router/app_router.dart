@@ -8,13 +8,9 @@ import '../../features/onboarding/presentation/onboarding_flow.dart';
 import '../../features/onboarding/presentation/terms_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/scan/presentation/scan_screen.dart';
-
-class _Placeholder extends StatelessWidget {
-  const _Placeholder(this.label);
-  final String label;
-  @override
-  Widget build(BuildContext context) => Scaffold(body: Center(child: Text(label)));
-}
+import '../../features/checkout/presentation/checkout_screen.dart';
+import '../../features/order/presentation/order_screen.dart';
+import '../../features/rental/presentation/rentals_screen.dart';
 
 GoRouter buildRouter(Ref ref) {
   final refresh = ValueNotifier<int>(0);
@@ -44,9 +40,9 @@ GoRouter buildRouter(Ref ref) {
       GoRoute(path: '/terms', builder: (_, __) => const TermsScreen()),
       GoRoute(path: '/home', builder: (_, __) => const HomeScreen()),
       GoRoute(path: '/scan', builder: (_, __) => const ScanScreen()),
-      GoRoute(path: '/c/:deviceId', builder: (_, s) => _Placeholder('Checkout ${s.pathParameters['deviceId']}')),
-      GoRoute(path: '/orders/:id', builder: (_, s) => _Placeholder('Order ${s.pathParameters['id']}')),
-      GoRoute(path: '/rentals', builder: (_, __) => const _Placeholder('Rentals')),
+      GoRoute(path: '/c/:deviceId', builder: (_, s) => CheckoutScreen(cabinetId: s.pathParameters['deviceId']!)),
+      GoRoute(path: '/orders/:id', builder: (_, s) => OrderScreen(orderId: s.pathParameters['id']!)),
+      GoRoute(path: '/rentals', builder: (_, __) => const RentalsScreen()),
     ],
   );
 }
