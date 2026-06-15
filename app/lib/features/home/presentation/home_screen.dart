@@ -18,6 +18,10 @@ class HomeScreen extends ConsumerWidget {
         title: const Text('Cabinets karibu'),
         actions: [
           IconButton(
+            icon: const Icon(Icons.account_circle),
+            onPressed: () => context.push('/profile'),
+          ),
+          IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () => ref.read(homeControllerProvider.notifier).refresh(),
           ),

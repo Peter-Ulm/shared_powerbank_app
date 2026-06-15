@@ -11,6 +11,10 @@ import '../../features/scan/presentation/scan_screen.dart';
 import '../../features/checkout/presentation/checkout_screen.dart';
 import '../../features/order/presentation/order_screen.dart';
 import '../../features/rental/presentation/rentals_screen.dart';
+import '../../features/history/presentation/history_screen.dart';
+import '../../features/history/presentation/receipt_screen.dart';
+import '../../features/profile/presentation/profile_screen.dart';
+import '../../features/support/presentation/support_screen.dart';
 
 GoRouter buildRouter(Ref ref) {
   final refresh = ValueNotifier<int>(0);
@@ -43,6 +47,10 @@ GoRouter buildRouter(Ref ref) {
       GoRoute(path: '/c/:deviceId', builder: (_, s) => CheckoutScreen(cabinetId: s.pathParameters['deviceId']!)),
       GoRoute(path: '/orders/:id', builder: (_, s) => OrderScreen(orderId: s.pathParameters['id']!)),
       GoRoute(path: '/rentals', builder: (_, __) => const RentalsScreen()),
+      GoRoute(path: '/profile', builder: (_, __) => const ProfileScreen()),
+      GoRoute(path: '/history', builder: (_, __) => const HistoryScreen()),
+      GoRoute(path: '/receipt/:id', builder: (_, s) => ReceiptScreen(rentalId: s.pathParameters['id']!)),
+      GoRoute(path: '/support', builder: (_, __) => const SupportScreen()),
     ],
   );
 }
