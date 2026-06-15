@@ -47,8 +47,10 @@ class MockRentalsRepository implements RentalsRepository {
   final ScenarioEngine _engine;
 
   @override
-  Future<List<Rental>> list({RentalStatus? status}) async =>
-      _engine.rentals.where((r) => status == null || r.status == status).toList();
+  Future<List<Rental>> list({RentalStatus? status}) async {
+    final all = [..._engine.rentals, ...mockHistoryRentals];
+    return all.where((r) => status == null || r.status == status).toList();
+  }
   @override
   Future<Rental> byId(String id) async => _engine.rentals.firstWhere((r) => r.id == id);
   @override
