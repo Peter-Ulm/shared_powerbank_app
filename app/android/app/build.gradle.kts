@@ -30,6 +30,15 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
+            // R8 shrinking is disabled because it strips Google ML Kit's barcode
+            // registrar constructors (used by mobile_scanner), which crashes the
+            // scanner on release builds. For production, re-enable shrinking WITH the
+            // keep rules in proguard-rules.pro:
+            //   isMinifyEnabled = true
+            //   isShrinkResources = true
+            //   proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }
